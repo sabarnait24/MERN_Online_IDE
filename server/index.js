@@ -1,0 +1,79 @@
+const express = require("express");
+const app = express();
+const http = require("http").Server(app);
+const cors = require("cors");
+const { Socket } = require("socket.io");
+require('dotenv').config();
+app.use(cors());
+
+const io = require("socket.io")(http, {
+  cors: {
+    origin: ["http://localhost:3000"],
+  },
+});
+
+const port = process.env.PORT || 5000;
+
+app.use(express.json());
+
+app.use("/", require("./route"));
+
+// app.use("/",require("./socket"))
+const Socketmap = {};
+
+function getAllClients(roomID) {
+  return Array.from(io.sockets.adapter.rooms.get(roomID) || []).map(
+    (socketId) => {
+      return {
+        socketId,
+        username: Socketmap[socketId],
+      };
+    }
+  );
+}
+
+io.on("connection", (Socket) => {
+  Socket.on("join", ({ roomID, username }) => {
+    Socketmap[Socket.id] = username;
+    Socket.join(roomID);
+    const Client = getAllClients(roomID);
+    // console.log(Client);
+    Client.forEach(({ socketId }) => {
+      // console.log(Client);
+      io.to(socketId).emit("NewUserJoin", {
+        Client,
+        username,
+        socketId: Socket.id,
+      });
+    });
+    // io.emit("codesync",{value});
+    
+  });
+  Socket.on("disconnect", () => {
+    var allRooms = Array.from(io.sockets.adapter.rooms || []);
+    // console.log(allRooms);
+    allRooms.forEach((roomID) => {
+      Socket.in(roomID).emit("UserDisconnected", {
+        socketId: Socket.id,
+        username: Socketmap[Socket.id],
+      });
+    });
+    delete Socketmap[Socket.id];
+    Socket.leave();
+  });
+  Socket.on("codechange", ({ roomID, value }) => {
+    io.emit("codesync",{value});
+  });
+  Socket.on("inputchange", ({ roomID, inputvalue }) => {
+    // console.log(inputvalue);
+    io.emit("inputsync",{inputvalue});
+  });
+  Socket.on("outputchange", ({ roomID, outputvalue }) => {
+    // console.log(inputvalue);
+    io.emit("outputsync",{outputvalue});
+  });
+});
+
+http.listen(port, () => {
+  console.log(`connection is successful at ${port}`);
+});

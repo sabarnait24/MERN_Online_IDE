@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { io } from "socket.io-client";
 import AvatarUser from "./AvatarUser";
 
-const socket = io("http://localhost:5000");
+const socket = io("");
 
 function SocketClient(props) {
   async function copyRoomId() {

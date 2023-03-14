@@ -99,13 +99,16 @@ function Compiler() {
             style={{ width: "250px" }}
             id="langselect"
           >
-            <option value="Cpp" className="text-black">
+            <option value="c" className="text-black">
+              C
+            </option>
+            <option value="cpp17" className="text-black">
               Cpp
             </option>
-            <option value="Java" className="text-black">
+            <option value="java" className="text-black">
               Java
             </option>
-            <option value="Pyhton" className="text-black">
+            <option value="python3" className="text-black">
               Python
             </option>
           </select>

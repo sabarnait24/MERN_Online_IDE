@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 
 // const socket = io("http://localhost:5000");
-const socket=io("");
+const socket=io("https://mern-online-ide.vercel.app");
 function Compiler() {
   const [data, setData] = useState("");
   const [output, setOutput] = useState("");
@@ -27,7 +27,7 @@ function Compiler() {
       input: input,
     };
 
-    await fetch("https://mern-online-ide.vercel.app/compile", {
+    await fetch("/compile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

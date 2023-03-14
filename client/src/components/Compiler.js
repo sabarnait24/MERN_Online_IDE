@@ -27,7 +27,7 @@ function Compiler() {
       input: input,
     };
 
-    await fetch("http://localhost:5000/compile", {
+    await fetch("/compile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

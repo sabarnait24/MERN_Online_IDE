@@ -27,7 +27,7 @@ function Compiler() {
       input: input,
     };
 
-    await fetch("/compile", {
+    await fetch("https://mern-online-ide.vercel.app/compile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -5,6 +5,7 @@ const cors = require("cors");
 const { Socket } = require("socket.io");
 require('dotenv').config();
 app.use(cors());
+const path = require('path');
 
 const io = require("socket.io")(http, {
   cors: {
@@ -73,6 +74,14 @@ io.on("connection", (Socket) => {
     io.emit("outputsync",{outputvalue});
   });
 });
+
+if (process.env.NODE_ENV === "production") {
+  console.log("In production stage");
+  app.use(express.static(path.resolve(__dirname, "client", "build")))
+  app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
 
 http.listen(port, () => {
   console.log(`connection is successful at ${port}`);

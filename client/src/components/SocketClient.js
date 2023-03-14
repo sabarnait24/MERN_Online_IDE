@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { io } from "socket.io-client";
 import AvatarUser from "./AvatarUser";
 
-const socket = io("");
+const socket = io("https://mern-online-ide.vercel.app/");
 
 function SocketClient(props) {
   async function copyRoomId() {

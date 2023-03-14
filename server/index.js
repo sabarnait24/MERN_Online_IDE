@@ -9,8 +9,8 @@ const path = require('path');
 
 const io = require("socket.io")(http, {
   cors: {
-    // origin: ["http://localhost:3000"],
-    origin: ["0.0.0.0/0"],
+    origin: ["http://localhost:3000"],
+    // origin: ["0.0.0.0/0"],
   },
 });
 

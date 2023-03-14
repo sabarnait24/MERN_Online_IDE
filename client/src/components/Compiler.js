@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 
 // const socket = io("http://localhost:5000");
-const socket=io("https://mern-online-ide.vercel.app/");
+const socket=io("");
 function Compiler() {
   const [data, setData] = useState("");
   const [output, setOutput] = useState("");
